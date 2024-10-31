@@ -15,7 +15,7 @@ def correction(answer_key:str, total_marks:int , user_answer:str) -> str:
             },
             {
                 "role": "user",
-                "content": f"Total Marks: {total_marks}\n\nAnswer Key: {answer_key}\n\nStudent Answer: {user_answer}\n\Marks: ",
+                "content": f"Total Marks: {total_marks}\n\nAnswer Key: {answer_key}\n\nStudent Answer: {user_answer}\n\nMarks: ",
             }
         ],
 
