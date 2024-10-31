@@ -1,7 +1,8 @@
 import easyocr
 
-reader = easyocr.Reader(['en'])
+def readText(image:str) -> str:   
+    reader = easyocr.Reader(['en'])
 
-result = reader.readtext('test1.png', detail = 1)
+    result = reader.readtext(image, detail=1, paragraph=True)
 
-print(result)
+    return (result[0][-1])
