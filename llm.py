@@ -5,27 +5,17 @@ from dotenv import load_dotenv
 load_dotenv('.env.local')
 
 class Message:
-    def __init__(self, role, content, image_url):
+    def __init__(self, role, content, image_url=None):
         self.role = role
         self.content = content
         self.image_url = image_url
     
     def getMessage(self):
-        return {
-            "role": self.role,
-            "content": [
-                {
-                    "type": "text",
-                    "text": self.content
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": self.image_url
-                    }
-                }
-            ]
-        }
+        # Ensure content is a single string
+        message_content = self.content
+        if self.image_url:
+            message_content += f"\nImage URL: {self.image_url}"
+        return {"role": self.role, "content": message_content}
 
 def correct_answer_sheet(answer_key: str, total_marks: int, user_answers: list[str]) -> str:
     """Correct an answer sheet using the LLaMA model."""
@@ -40,16 +30,18 @@ def correct_answer_sheet(answer_key: str, total_marks: int, user_answers: list[s
 
     # Add the user answers to the messages
     for index, user_answer in enumerate(user_answers):
-        messages.append(Message("user", f"Answer Sheet {index+1}/{len(user_answers)}", user_answer))
+        message = Message("user", f"Answer Sheet {index+1}/{len(user_answers)}: {user_answer}")
+        messages.append(message.getMessage())
 
     # Add the answer key to the messages
-    messages.append(Message("user", "Answer Key, Note: The total marks is " + str(total_marks) + "\n\nPlease Correcrt the following:\n", answer_key))
+    answer_key_message = Message("user", f"Answer Key, Note: The total marks is {total_marks}\n\nPlease correct the following:\n{answer_key}")
+    messages.append(answer_key_message.getMessage())
 
     # Create the client and get the chat completion
     client = Groq()
     chat_completion = client.chat.completions.create(
         messages=messages,
-        model="llama-3.2-11b-vision-preview",
+        model="llama3-groq-70b-8192-tool-use-preview",
         temperature=0.5,
         max_tokens=1024,
         top_p=1,
