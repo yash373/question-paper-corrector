@@ -7,11 +7,15 @@ if __name__ == "__main__":
 
     user_answer = []
 
-    for file in directory:
-        user_answer.append(upload_image(f"./answer_sheets/{file}"))
+    print("Reading Files...")
 
-    answer_key = upload_image("answer_key.jpg")
+    for file in directory:
+        user_answer.append("https://ibb.co/7RJzZv6")
+
+    answer_key = "https://ibb.co/sVw9B2F"
 
     total = int(input("Enter total marks: "))
+
+    print("Generating Result...")
 
     print(correct_answer_sheet(answer_key, total, user_answer))
