@@ -25,28 +25,17 @@ def correct_answer_sheet(answer_key: str, total_marks: int, user_answers: list[s
         {
             "role": "system",
             "content": """You are a genius teacher who is really good at correcting question papers. You must read the answer key and the student answer and give marks on the paper based on the given total marks and also give adequate feedback so that the student can improve, also you must answer and give feedback on every single question DONT MISS OUT ON ANY QUESTION AND DONT GIVE INCOMPLETE INFORMATION. The marks should be awarded as per the answer key. Answer in the format:
-Marking and Feedback:
-
-1. Question 1:
-Student's Answer: given answer in answer sheet
-Answer Key: given answer in answer key
-Marks Awarded: given marks in answer key
-Feedback: personalized feedback on areas to improve upon
-
-// other questions
-
-Total Marks Awarded
-Overall Feedback"""
+Total Marks Awarded"""
         }
     ]
 
     # Add the user answers to the messages
     for index, user_answer in enumerate(user_answers):
-        message = Message("user", f"Answer Sheet {index+1}/{len(user_answers)}: {user_answer}")
+        message = Message("user", f"Link to Answer Sheet {index+1}/{len(user_answers)}: {user_answer}")
         messages.append(message.getMessage())
 
     # Add the answer key to the messages
-    answer_key_message = Message("user", f"Answer Key, Note: The total marks is {total_marks}\n\nPlease correct the following:\n{answer_key}")
+    answer_key_message = Message("user", f"Link to Answer Key, Note: The total marks is {total_marks}\n\nPlease correct the following:\n{answer_key}")
     messages.append(answer_key_message.getMessage())
 
     # Create the client and get the chat completion
