@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     answer_key = "https://ibb.co/sVw9B2F"
 
-    total = int(input("Enter total marks: "))
+    total = (input("Enter total marks and additional context if any: "))
 
     print("Generating Result...")
 
